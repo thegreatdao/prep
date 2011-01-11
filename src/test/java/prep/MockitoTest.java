@@ -2,25 +2,38 @@ package prep;
 /*
  * http://docs.mockito.googlecode.com/hg/org/mockito/Mockito.html#1
  */
-import static org.mockito.Matchers.*;
-import static org.mockito.Mockito.*;
+import static org.mockito.Matchers.anyInt;
+import static org.mockito.Mockito.atLeastOnce;
+import static org.mockito.Mockito.atMost;
+import static org.mockito.Mockito.doThrow;
+import static org.mockito.Mockito.inOrder;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.verifyNoMoreInteractions;
+import static org.mockito.Mockito.verifyZeroInteractions;
+import static org.mockito.Mockito.when;
 
-import java.util.LinkedList;
 import java.util.List;
 
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.mockito.InOrder;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.mockito.runners.MockitoJUnitRunner;
 
 @SuppressWarnings("unchecked")
+@RunWith(MockitoJUnitRunner.class)
 public class MockitoTest
 {
 	@Mock
 	private List<String> annotationCreatedMock;
 	private List<String> mockedList;
+	
 	@BeforeClass
 	public static void init()
 	{
@@ -34,12 +47,24 @@ public class MockitoTest
 	}
 	
 	@Test
+	public void testMockAnnotation()
+	{
+		// using mock object
+		annotationCreatedMock.add("one");
+		annotationCreatedMock.clear();
+
+		// verification
+		verify(annotationCreatedMock).add("one");
+		verify(annotationCreatedMock).clear();
+	}
+	
+	@Test
 	public void testMock()
 	{
 		// using mock object
 		mockedList.add("one");
 		mockedList.clear();
-
+		
 		// verification
 		verify(mockedList).add("one");
 		verify(mockedList).clear();
@@ -184,9 +209,4 @@ public class MockitoTest
 
 	}
 	
-	public void testMockAnnotation()
-	{
-		annotationCreatedMock.add("mockito");
-		verify(annotationCreatedMock).add("mockito");
-	}
 }
